@@ -1,0 +1,99 @@
+# Render Blueprint for School of Discipleship
+# https://render.com/docs/blueprint-spec
+
+services:
+  # Backend Service (FastAPI)
+  - type: web
+    name: school-of-discipleship-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: APP_NAME
+        value: School of Discipleship API
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: API_V1_PREFIX
+        value: /api/v1
+      - key: DEBUG
+        value: False
+      - key: LOG_LEVEL
+        value: INFO
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      # REQUIRED: Set these in Render dashboard
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: BACKEND_CORS_ORIGINS
+        sync: false
+      # Payment (Optional - use placeholders if not available)
+      - key: PAYSTACK_SECRET_KEY
+        value: sk_test_placeholder
+      - key: PAYSTACK_PUBLIC_KEY
+        value: pk_test_placeholder
+      - key: PAYSTACK_WEBHOOK_SECRET
+        value: whsec_placeholder
+
+  # Frontend Service (Next.js)
+  - type: web
+    name: school-of-discipleship-frontend
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_NAME
+        value: School of Discipleship
+      - key: NEXT_PUBLIC_APP_VERSION
+        value: 1.0.0
+      - key: NEXT_PUBLIC_API_V1_PREFIX
+        value: /api/v1
+      - key: NEXT_PUBLIC_ENABLE_GOOGLE_AUTH
+        value: true
+      - key: NEXT_PUBLIC_ENABLE_DARK_MODE
+        value: true
+      - key: NEXT_PUBLIC_ENABLE_PAYMENTS
+        value: true
+      # REQUIRED: Set these in Render dashboard
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+
+# After first deployment:
+# 1. Note the backend URL (e.g., https://school-of-discipleship-backend.onrender.com)
+# 2. Note the frontend URL (e.g., https://school-of-discipleship-frontend.onrender.com)
+# 3. Update environment variables:
+#    - BACKEND_CORS_ORIGINS: ["https://school-of-discipleship-frontend.onrender.com"]
+#    - NEXT_PUBLIC_API_URL: https://school-of-discipleship-backend.onrender.com
+# 4. Go to Supabase dashboard → Authentication → URL Configuration
+#    - Add: https://school-of-discipleship-frontend.onrender.com/auth/callback
+# 5. For custom domain (interprayerleague.com):
+#    - Go to project Settings → Custom Domains
+#    - Add domain, get DNS records
+#    - Update Hostinger DNS settings

@@ -1,0 +1,554 @@
+@import "tailwindcss";
+
+/* Design tokens from UI prototype */
+:root {
+  /* Colors */
+  --bg: #f4f7ff;
+  --card: #ffffff;
+  --ink: #0f1b3d;
+  --muted: #5b6785;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --sidebar: #2563eb;
+  --line: #dfe6f5;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  
+  /* Hero gradient */
+  --hero: linear-gradient(135deg, #1e3a8a, #2563eb 60%, #60a5fa);
+  
+  /* Safe area insets for mobile */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1220;
+    --card: #131c33;
+    --ink: #e8eefc;
+    --muted: #93a0c0;
+    --line: #243256;
+    --sidebar: #1e3a8a;
+  }
+}
+
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --card: #131c33;
+  --ink: #e8eefc;
+  --muted: #93a0c0;
+  --line: #243256;
+  --sidebar: #1e3a8a;
+}
+
+/* Custom theme variables for Tailwind */
+@theme inline {
+  /* Background colors */
+  --color-background: var(--bg);
+  --color-card: var(--card);
+  
+  /* Text colors */
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  
+  /* Brand colors */
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-sidebar: var(--sidebar);
+  
+  /* Utility colors */
+  --color-line: var(--line);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  
+  /* Font families */
+  --font-sans: "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Focus visible styles for accessibility */
+*:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Scroll padding for sticky headers */
+html {
+  scroll-padding-top: var(--safe-top);
+}
+
+/* Prototype utility styles */
+
+/* Typography */
+h1, h2, h3 {
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(28px, 6vw, 46px);
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+/* Layout */
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.hero {
+  background: var(--hero);
+  color: #fff;
+  padding: 64px 20px;
+  text-align: center;
+}
+
+.hero p {
+  color: #dbeafe;
+  max-width: 560px;
+  margin: 0 auto 22px;
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: var(--safe-top);
+  z-index: 5;
+}
+
+.nav .logo {
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.nav b {
+  font-size: 17px;
+  color: var(--primary);
+}
+
+.nav a {
+  color: var(--ink);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: var(--bg);
+}
+
+.nav a.active {
+  background: var(--bg);
+  font-weight: 600;
+}
+
+/* Footer */
+.foot {
+  background: #0f1b3d;
+  color: #b6c3e6;
+  padding: 28px 20px;
+  font-size: 14px;
+}
+
+.foot .wrap {
+  padding: 0;
+}
+
+.foot a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 20px;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: inherit;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+
+.btn.w {
+  background: #fff;
+  color: var(--primary-dark);
+}
+
+.btn.blk {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.ico {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #dbeafe;
+  color: var(--primary-dark);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Grid and row layouts */
+.grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form elements */
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 12px 0 4px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: #dbeafe;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.tag.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tag.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Details/accordion */
+details {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+
+summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Testimonials */
+.quote {
+  font-style: italic;
+}
+
+.who {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Student portal styles */
+
+/* App layout */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.side {
+  width: 240px;
+  background: var(--sidebar);
+  color: #fff;
+  padding: 20px 14px;
+  flex-shrink: 0;
+}
+
+.side h3 {
+  padding: 0 10px 14px;
+  color: #fff;
+}
+
+.side a {
+  display: block;
+  padding: 11px 12px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  color: #e0e9ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.side a:hover,
+.side a.act {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.main {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+  max-width: 960px;
+}
+
+/* Mobile responsive */
+@media (max-width: 760px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .side {
+    width: 100%;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .side h3 {
+    display: none;
+  }
+
+  .side a {
+    white-space: nowrap;
+    margin: 0;
+  }
+}
+
+/* Progress bar */
+.bar {
+  height: 12px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+/* Banner */
+.banner {
+  background: var(--hero);
+  color: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.banner p {
+  color: #dbeafe;
+}
+
+.banner .bar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.banner .bar i {
+  background: #fff;
+}
+
+/* Lesson list */
+.les {
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.les.cur {
+  background: #dbeafe;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.les.done::before {
+  content: "✓";
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Video player */
+.player {
+  aspect-ratio: 16 / 9;
+  background: #0f1b3d;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 44px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+/* Admin portal styles */
+
+.side.adm {
+  background: #0f1b3d;
+}
+
+.stat {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+/* Table with scroll */
+.tw {
+  overflow-x: auto;
+}
+
+.tw table {
+  min-width: 820px;
+}
+
+/* Mini progress bar for tables */
+.mini {
+  width: 90px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-weight: 600;
+}
+
+/* Quiz styles */
+
+.opt {
+  display: block;
+  padding: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.opt:hover {
+  border-color: var(--primary);
+  background: #f0f7ff;
+}
+
+.opt:has(input:checked) {
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.opt input {
+  width: auto;
+  margin-right: 8px;
+}
