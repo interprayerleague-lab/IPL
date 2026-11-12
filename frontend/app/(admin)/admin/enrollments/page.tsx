@@ -13,7 +13,7 @@ export default function EnrollmentsPage() {
   }, []);
 
   const loadEnrollments = async () => {
-    try:
+    try {
       const {
         data: { session },
       } = await supabase.auth.getSession();

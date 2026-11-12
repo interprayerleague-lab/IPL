@@ -16,7 +16,7 @@ export default function StudentDetailPage() {
   }, [params.id]);
 
   const loadStudent = async () => {
-    try:
+    try {
       const {
         data: { session },
       } = await supabase.auth.getSession();

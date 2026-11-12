@@ -13,7 +13,7 @@ export default function ContentPage() {
   }, []);
 
   const loadContent = async () => {
-    try:
+    try {
       const {
         data: { session },
       } = await supabase.auth.getSession();
