@@ -25,7 +25,7 @@ export default function QuizResultsPage() {
   }, [params.attemptId]);
 
   const loadResults = async () => {
-    try:
+    try {
       const {
         data: { session },
       } = await supabase.auth.getSession();
