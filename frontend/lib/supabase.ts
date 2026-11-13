@@ -18,7 +18,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * Use this in Client Components
  */
 export function createClient() {
-  return createBrowserClient(supabaseUrl, supabaseAnonKey)
+  return createBrowserClient(supabaseUrl!, supabaseAnonKey!)
 }
 
 /**

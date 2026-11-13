@@ -142,11 +142,11 @@ export default function PaymentsPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const styles: { [key: string]: string } = {
-      pending: 'background: var(--warning); color: white;',
-      successful: 'background: var(--success); color: white;',
-      failed: 'background: var(--error); color: white;',
-      cancelled: 'background: var(--muted); color: white;',
+    const styles: { [key: string]: React.CSSProperties } = {
+      pending: { background: 'var(--warning)', color: 'white' },
+      successful: { background: 'var(--success)', color: 'white' },
+      failed: { background: 'var(--error)', color: 'white' },
+      cancelled: { background: 'var(--muted)', color: 'white' },
     };
 
     const labels: { [key: string]: string } = {
@@ -162,7 +162,7 @@ export default function PaymentsPage() {
           padding: '4px 12px',
           borderRadius: '12px',
           fontSize: '13px',
-          ...(styles[status] ? { ...styles[status] } : {}),
+          ...(styles[status] || {}),
         }}
       >
         {labels[status] || status}
