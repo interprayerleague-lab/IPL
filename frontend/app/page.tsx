@@ -1,53 +1,81 @@
-import Image from "next/image";
+import Link from 'next/link';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <div className="hero">
+        <h1>Deepen your walk with Christ</h1>
+        <p>
+          A 12-week intensive of biblical teaching, mentorship and community,
+          taught online at your pace.
+        </p>
+        <Link href="/apply" className="btn w">
+          Enroll now
+        </Link>
+      </div>
+
+      <div className="wrap">
+        <h2>A message from our Discipleship Director</h2>
+        <p>
+          Every believer is called to grow, not just to attend. This school
+          exists to ground you in the Word, fill you with the Spirit and equip
+          you to live a disciplined Christian life.
+        </p>
+        <p>
+          Whether you joined last year or last month, you will be walked through
+          each step by a facilitator who knows your name.
+        </p>
+
+        <h2 style={{ marginTop: '26px' }}>What you will gain</h2>
+        <div className="grid">
+          <div className="card">
+            <div className="ico">📖</div>
+            <h3>Biblical foundations</h3>
+            <p>Core doctrine taught from Scripture.</p>
+          </div>
+          <div className="card">
+            <div className="ico">🤝</div>
+            <h3>Mentorship</h3>
+            <p>A facilitator answers your questions.</p>
+          </div>
+          <div className="card">
+            <div className="ico">💻</div>
+            <h3>Flexible online learning</h3>
+            <p>Watch on your phone, any time.</p>
+          </div>
+          <div className="card">
+            <div className="ico">🎓</div>
+            <h3>Certificate</h3>
+            <p>Awarded when you complete all modules.</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
+
+        <h2 style={{ marginTop: '26px' }}>Alumni testimonies</h2>
+        <div className="grid">
+          <div className="card">
+            <p className="quote">
+              "I finally understood why I fast and how to pray with purpose."
+            </p>
+            <div className="who">Adaeze, Lagos branch</div>
+          </div>
+          <div className="card">
+            <p className="quote">
+              "The Holy Spirit module changed how I read my Bible."
+            </p>
+            <div className="who">Tunde, Ibadan branch</div>
+          </div>
+          <div className="card">
+            <p className="quote">
+              "Flexible enough for my work schedule, deep enough to matter."
+            </p>
+            <div className="who">Grace, Abuja branch</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
               alt="Vercel logomark"
               width={16}
               height={14}
