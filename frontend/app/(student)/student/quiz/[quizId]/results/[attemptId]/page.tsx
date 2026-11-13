@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 interface Result {
   score: number;
   passed: boolean;

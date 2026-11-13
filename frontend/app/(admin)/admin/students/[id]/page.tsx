@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function StudentDetailPage() {
   const params = useParams();
   const supabase = createClientComponentClient();

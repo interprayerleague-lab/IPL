@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
+export const dynamic = 'force-dynamic';
+
 interface Lesson {
   id: string;
   module_id: string;
