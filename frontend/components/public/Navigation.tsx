@@ -33,9 +33,6 @@ export default function Navigation() {
         About
       </Link>
       <Link href="/login">Log in</Link>
-      <Link href="/apply" className="btn">
-        Enroll now
-      </Link>
     </nav>
   );
 }

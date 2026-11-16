@@ -9,8 +9,8 @@ export default function HomePage() {
           A 12-week intensive of biblical teaching, mentorship and community,
           taught online at your pace.
         </p>
-        <Link href="/apply" className="btn w">
-          Enroll now
+        <Link href="/signup" className="btn w">
+          Get Started
         </Link>
       </div>
 
