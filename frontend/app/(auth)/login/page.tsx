@@ -69,7 +69,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--hero)' }}>
-      <div className="w-full max-width-[400px] bg-[var(--card)] rounded-[14px] p-[26px] shadow-lg">
+      <div className="w-full max-w-[400px] bg-[var(--card)] rounded-[14px] p-[26px] shadow-lg">
         <h2 className="text-[24px] font-bold mb-2">Welcome back</h2>
         <p className="text-[var(--muted)] mb-6">Log in to continue learning.</p>
 
