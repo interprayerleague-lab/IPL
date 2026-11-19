@@ -95,8 +95,8 @@ export default function ApplicationPage() {
         <div className="card">
           <h3>No application found</h3>
           <p>You haven't submitted an application yet.</p>
-          <Link href="/apply" className="btn">
-            Start application
+          <Link href="/signup" className="btn">
+            Get Started - Sign up first
           </Link>
         </div>
       </>

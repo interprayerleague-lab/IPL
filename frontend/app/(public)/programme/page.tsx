@@ -27,8 +27,8 @@ export default function ProgrammePage() {
       <div className="card" style={{ marginTop: '16px' }}>
         <h3>Prerequisites</h3>
         <p>You must have completed the foundational believers' class.</p>
-        <Link href="/apply" className="btn">
-          Enroll now
+        <Link href="/signup" className="btn">
+          Get Started
         </Link>
       </div>
     </div>
