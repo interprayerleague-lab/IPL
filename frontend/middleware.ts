@@ -59,9 +59,15 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { session } } = await supabase.auth.getSession()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
+
+  console.log('=== MIDDLEWARE ===', {
+    path,
+    hasUser: !!user,
+    userId: user?.id,
+  })
 
   // Define route protections
   const isAuthRoute = path.startsWith('/login') || path.startsWith('/signup') || path.startsWith('/forgot-password')
@@ -70,24 +76,55 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = isStudentRoute || isAdminRoute
 
   // Redirect authenticated users away from auth pages
-  if (isAuthRoute && session) {
-    return NextResponse.redirect(new URL('/student/dashboard', request.url))
+  if (isAuthRoute && user) {
+    console.log('Auth route with user, checking role...')
+    
+    // Check user role to redirect to appropriate dashboard
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError) {
+      console.error('Profile fetch error:', profileError)
+      // If we can't fetch profile, sign out and stay on auth page
+      await supabase.auth.signOut()
+      return response
+    }
+
+    console.log('Profile role:', profile?.role)
+
+    if (profile && profile.role === 'admin') {
+      console.log('Redirecting admin to /admin')
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+    
+    console.log('Redirecting student to /student')
+    return NextResponse.redirect(new URL('/student', request.url))
   }
 
   // Redirect unauthenticated users to login
-  if (isProtectedRoute && !session) {
+  if (isProtectedRoute && !user) {
     const redirectUrl = new URL('/login', request.url)
     redirectUrl.searchParams.set('redirect', path)
     return NextResponse.redirect(redirectUrl)
   }
 
   // Check roles for protected routes
-  if ((isStudentRoute || isAdminRoute) && session) {
-    const { data: profile } = await supabase
+  if ((isStudentRoute || isAdminRoute) && user) {
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
+
+    if (profileError) {
+      console.error('Profile fetch error on protected route:', profileError)
+      // Can't fetch profile - sign out and redirect to login
+      await supabase.auth.signOut()
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
 
     if (!profile || !profile.role) {
       // No profile or role - sign out and redirect to login
