@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 import Link from 'next/link';
 import ProgressBar from '@/components/student/ProgressBar';
 
@@ -17,7 +17,7 @@ interface Student {
 }
 
 export default function StudentsPage() {
-  const supabase = createClientComponentClient();
+  // Supabase client created in function
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState<Student[]>([]);
 
@@ -27,6 +27,8 @@ export default function StudentsPage() {
 
   const loadStudents = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();

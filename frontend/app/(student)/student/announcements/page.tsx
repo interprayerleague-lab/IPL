@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 
 interface Announcement {
   id: string;
@@ -12,7 +12,6 @@ interface Announcement {
 }
 
 export default function AnnouncementsPage() {
-  const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(true);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
@@ -22,11 +21,15 @@ export default function AnnouncementsPage() {
 
   const loadAnnouncements = async () => {
     try {
+      const supabase = createClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (!session) return;
+      if (!session) {
+        setLoading(false);
+        return;
+      }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 

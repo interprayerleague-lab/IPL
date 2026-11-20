@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 
 export default function AnnouncementsPage() {
-  const supabase = createClientComponentClient();
+  // Supabase client created in function
   const [loading, setLoading] = useState(true);
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [creating, setCreating] = useState(false);
@@ -21,6 +21,8 @@ export default function AnnouncementsPage() {
 
   const loadAnnouncements = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -51,6 +53,8 @@ export default function AnnouncementsPage() {
     setCreating(true);
 
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 
 interface Certificate {
   id: string;
@@ -25,7 +25,7 @@ interface EligibleStudent {
 }
 
 export default function CertificatesPage() {
-  const supabase = createClientComponentClient();
+  // Supabase client created in function
   const [loading, setLoading] = useState(true);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [eligibleStudents, setEligibleStudents] = useState<EligibleStudent[]>([]);
@@ -44,6 +44,8 @@ export default function CertificatesPage() {
 
   const loadCertificates = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -69,6 +71,8 @@ export default function CertificatesPage() {
 
   const loadEligibleStudents = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -98,6 +102,8 @@ export default function CertificatesPage() {
     setIssuing(enrollmentId);
 
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -136,6 +142,8 @@ export default function CertificatesPage() {
     setRevoking(certificateId);
 
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();

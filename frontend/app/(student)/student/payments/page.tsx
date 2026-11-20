@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 
 interface Payment {
   id: string;
@@ -25,7 +25,7 @@ interface Enrollment {
 }
 
 export default function PaymentsPage() {
-  const supabase = createClientComponentClient();
+  // Supabase client created in function
   const [loading, setLoading] = useState(true);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
@@ -43,6 +43,8 @@ export default function PaymentsPage() {
 
   const loadPayments = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -68,6 +70,8 @@ export default function PaymentsPage() {
 
   const loadEnrollments = async () => {
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -95,6 +99,8 @@ export default function PaymentsPage() {
     setInitializing(enrollment.id);
 
     try {
+      const supabase = createClient();
+
       const {
         data: { session },
       } = await supabase.auth.getSession();

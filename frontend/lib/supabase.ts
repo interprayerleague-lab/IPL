@@ -28,27 +28,26 @@ export function createClient() {
         
         if (!cookie) return undefined
         
-        const value = cookie.split('=').slice(1).join('=')
-        return decodeURIComponent(value)
+        // Get the value after the '=' - don't decode yet, Supabase will handle it
+        const value = cookie.split('=').slice(1).join('=').trim()
+        return value
       },
       set(name: string, value: string, options: any) {
         if (typeof document === 'undefined') return
         
-        let cookie = `${name}=${encodeURIComponent(value)}`
+        // Don't encode the value - Supabase already handles encoding
+        let cookie = `${name}=${value}`
         
         if (options?.maxAge) {
           cookie += `; max-age=${options.maxAge}`
         }
-        if (options?.path) {
-          cookie += `; path=${options.path}`
-        } else {
-          cookie += '; path=/'
-        }
+        cookie += `; path=${options?.path || '/'}`
+        
         if (options?.domain) {
           cookie += `; domain=${options.domain}`
         }
         if (options?.sameSite) {
-          cookie += `; samesite=${options.sameSite}`
+          cookie += `; samesite=${options.sameSite || 'lax'}`
         }
         if (options?.secure) {
           cookie += '; secure'
@@ -59,18 +58,7 @@ export function createClient() {
       remove(name: string, options: any) {
         if (typeof document === 'undefined') return
         
-        let cookie = `${name}=; max-age=0`
-        
-        if (options?.path) {
-          cookie += `; path=${options.path}`
-        } else {
-          cookie += '; path=/'
-        }
-        if (options?.domain) {
-          cookie += `; domain=${options.domain}`
-        }
-        
-        document.cookie = cookie
+        document.cookie = `${name}=; path=${options?.path || '/'}; max-age=0`
       },
     },
   })

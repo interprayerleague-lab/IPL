@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,6 @@ interface Quiz {
 export default function QuizPage() {
   const params = useParams();
   const router = useRouter();
-  const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [attemptId, setAttemptId] = useState<string | null>(null);
@@ -40,6 +39,7 @@ export default function QuizPage() {
 
   const loadQuizAndStart = async () => {
     try {
+      const supabase = createClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();

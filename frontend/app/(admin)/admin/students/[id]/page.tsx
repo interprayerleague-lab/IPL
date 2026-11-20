@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export default function StudentDetailPage() {
   const params = useParams();
-  const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(true);
   const [student, setStudent] = useState<any>(null);
 
@@ -19,6 +18,7 @@ export default function StudentDetailPage() {
 
   const loadStudent = async () => {
     try {
+      const supabase = createClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
