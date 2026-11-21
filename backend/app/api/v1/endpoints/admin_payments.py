@@ -14,10 +14,10 @@ router = APIRouter()
 
 @router.get("", response_model=List[PaymentResponse])
 def list_payments(
+    admin_id: AdminUserId,
     status: Optional[str] = Query(None, description="Filter by status"),
     student_id: Optional[str] = Query(None, description="Filter by student"),
     limit: int = Query(100, le=500, description="Number of results"),
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     List all payments with optional filters.
@@ -35,7 +35,7 @@ def list_payments(
 @router.get("/{payment_id}", response_model=PaymentResponse)
 def get_payment(
     payment_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Get payment details.
@@ -85,7 +85,7 @@ def get_payment(
 @router.post("/{payment_id}/verify", response_model=PaymentVerifyResponse)
 def verify_payment(
     payment_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Manually verify payment with Paystack API.
@@ -164,7 +164,7 @@ def verify_payment(
 def update_payment_status(
     payment_id: str,
     data: PaymentStatusUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Update payment status manually.
@@ -189,3 +189,4 @@ def update_payment_status(
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

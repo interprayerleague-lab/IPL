@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get("/me", response_model=List[ProgressResponse])
 def get_my_progress(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get all progress records for current student.
@@ -24,7 +24,7 @@ def get_my_progress(
 @router.get("/lessons/{lesson_id}", response_model=ProgressResponse)
 def get_lesson_progress(
     lesson_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get progress for a specific lesson.
@@ -53,7 +53,7 @@ def get_lesson_progress(
 def update_lesson_progress(
     lesson_id: str,
     data: ProgressUpdate,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Update progress for a lesson.
@@ -67,3 +67,4 @@ def update_lesson_progress(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  
+  // Hide development indicator for cleaner UX
+  devIndicators: {
+    appIsrStatus: false,
+    buildActivity: false,
+  },
+  
   images: {
     remotePatterns: [
       {

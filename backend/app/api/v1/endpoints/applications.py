@@ -17,7 +17,7 @@ router = APIRouter()
 @router.post("", response_model=ApplicationResponse, status_code=201)
 def create_application(
     data: ApplicationCreate,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Student creates a new application.
@@ -34,7 +34,7 @@ def create_application(
 
 @router.get("/me", response_model=List[ApplicationResponse])
 def get_my_applications(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Student retrieves their own applications.
@@ -49,7 +49,7 @@ def get_my_applications(
 @router.get("/{application_id}", response_model=ApplicationResponse)
 def get_application(
     application_id: str,
-    user_id: str = Depends(CurrentUserId),
+    user_id: CurrentUserId,
 ):
     """
     Get application by ID.
@@ -94,7 +94,7 @@ def get_application(
 def update_application(
     application_id: str,
     data: ApplicationUpdate,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Student updates their draft application.
@@ -116,7 +116,7 @@ def update_application(
 @router.post("/{application_id}/submit", response_model=ApplicationResponse)
 def submit_application(
     application_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Student submits application for review.
@@ -137,7 +137,7 @@ def submit_application(
 def review_application(
     application_id: str,
     data: ApplicationReview,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Admin reviews application and updates status.
@@ -156,11 +156,11 @@ def review_application(
 
 @router.get("", response_model=List[ApplicationResponse])
 def list_applications(
+    admin_id: AdminUserId,
     status: Optional[str] = Query(None),
     branch_id: Optional[str] = Query(None),
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     Admin lists all applications with optional filters.
@@ -172,3 +172,4 @@ def list_applications(
         return applications
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

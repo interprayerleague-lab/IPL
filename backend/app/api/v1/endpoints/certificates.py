@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get("", response_model=List[CertificateResponse])
 def get_my_certificates(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get current student's certificates.
@@ -25,7 +25,7 @@ def get_my_certificates(
 @router.get("/{certificate_id}", response_model=CertificateResponse)
 def get_certificate(
     certificate_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get certificate details.
@@ -50,7 +50,7 @@ def get_certificate(
 @router.get("/enrollments/{enrollment_id}/eligibility", response_model=CertificateEligibility)
 def check_certificate_eligibility(
     enrollment_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Check if student is eligible for certificate.
@@ -78,7 +78,7 @@ def check_certificate_eligibility(
 @router.get("/{certificate_id}/download")
 def download_certificate(
     certificate_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Download certificate file.
@@ -127,3 +127,4 @@ def download_certificate(
     except Exception as e:
         print(f"Download error: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+

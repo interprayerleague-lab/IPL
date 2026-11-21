@@ -15,7 +15,7 @@ router = APIRouter()
 @router.get("/{quiz_id}", response_model=QuizResponse)
 def get_quiz(
     quiz_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get quiz with questions (safe - no correct answers).
@@ -39,7 +39,7 @@ def get_quiz(
 @router.post("/{quiz_id}/start", response_model=QuizAttemptResponse)
 def start_quiz(
     quiz_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Start a new quiz attempt.
@@ -59,7 +59,7 @@ def submit_quiz(
     quiz_id: str,
     attempt_id: str,
     submission: QuizSubmission,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Submit quiz answers and receive graded result.
@@ -81,7 +81,7 @@ def submit_quiz(
 @router.get("/{quiz_id}/attempts", response_model=List[QuizAttemptResponse])
 def get_quiz_attempts(
     quiz_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get student's attempts for a quiz.
@@ -97,7 +97,7 @@ def get_quiz_attempts(
 @router.get("/attempts/{attempt_id}")
 def get_attempt_result(
     attempt_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get detailed attempt result with feedback.
@@ -117,3 +117,4 @@ def get_attempt_result(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

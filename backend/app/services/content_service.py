@@ -6,6 +6,71 @@ from app.core.database import supabase_admin
 class ContentService:
     """Service for managing programmes, modules, lessons (Admin CRUD)"""
 
+    # CONTENT OVERVIEW
+    @staticmethod
+    def get_programmes_with_hierarchy() -> list:
+        """Get all programmes with nested modules, lessons, and quizzes"""
+        # Fetch all programmes
+        programmes_result = (
+            supabase_admin.table("programmes")
+            .select("*")
+            .order("created_at", desc=False)
+            .execute()
+        )
+        programmes = programmes_result.data or []
+
+        for programme in programmes:
+            # Fetch modules for each programme
+            modules_result = (
+                supabase_admin.table("modules")
+                .select("*")
+                .eq("programme_id", programme["id"])
+                .order("sequence_number", desc=False)
+                .execute()
+            )
+            modules = modules_result.data or []
+
+            for module in modules:
+                # Fetch lessons for each module
+                lessons_result = (
+                    supabase_admin.table("lessons")
+                    .select("*")
+                    .eq("module_id", module["id"])
+                    .order("sequence_number", desc=False)
+                    .execute()
+                )
+                lessons = lessons_result.data or []
+
+                for lesson in lessons:
+                    # Fetch quizzes for each lesson
+                    quizzes_result = (
+                        supabase_admin.table("quizzes")
+                        .select("id, title, pass_mark, max_attempts, is_published")
+                        .eq("lesson_id", lesson["id"])
+                        .execute()
+                    )
+                    quizzes = quizzes_result.data or []
+
+                    # Count questions for each quiz
+                    for quiz in quizzes:
+                        questions_result = (
+                            supabase_admin.table("questions")
+                            .select("id", count="exact")
+                            .eq("quiz_id", quiz["id"])
+                            .execute()
+                        )
+                        quiz["question_count"] = questions_result.count or 0
+
+                    lesson["quizzes"] = quizzes
+
+                module["lessons"] = lessons
+                module["lesson_count"] = len(lessons)
+
+            programme["modules"] = modules
+            programme["module_count"] = len(modules)
+
+        return programmes
+
     # PROGRAMMES
     @staticmethod
     def create_programme(data: Dict[str, Any], created_by: str) -> dict:

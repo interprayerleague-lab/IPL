@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("")
 def create_announcement(
     data: AnnouncementCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Create new announcement.
@@ -50,7 +50,7 @@ def create_announcement(
 def update_announcement(
     announcement_id: str,
     data: AnnouncementUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Update announcement.
@@ -89,7 +89,7 @@ def update_announcement(
 
 @router.get("")
 def list_all_announcements(
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     List all announcements (including unpublished).
@@ -111,7 +111,7 @@ def list_all_announcements(
 @router.delete("/{announcement_id}")
 def delete_announcement(
     announcement_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Delete announcement.
@@ -136,3 +136,4 @@ def delete_announcement(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

@@ -9,8 +9,8 @@ router = APIRouter()
 
 @router.get("", response_model=List[AnnouncementResponse])
 def get_announcements(
+    student_id: StudentUserId,
     limit: int = Query(20, ge=1, le=100),
-    student_id: str = Depends(StudentUserId),
 ):
     """
     Get announcements visible to current student.
@@ -23,3 +23,4 @@ def get_announcements(
         return announcements
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

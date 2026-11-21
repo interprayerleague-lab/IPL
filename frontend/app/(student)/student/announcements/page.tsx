@@ -27,21 +27,33 @@ export default function AnnouncementsPage() {
       } = await supabase.auth.getSession();
 
       if (!session) {
+        console.log('No session found');
         setLoading(false);
         return;
       }
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      console.log('✅ Session found, access_token:', session.access_token.substring(0, 20) + '...');
 
-      const response = await fetch(`${apiUrl}/api/v1/announcements?limit=50`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const url = `${apiUrl}/api/v1/announcements?limit=50`;
+      
+      console.log('Fetching:', url);
+
+      const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
         },
       });
+
+      console.log('Response status:', response.status);
 
       if (response.ok) {
         const data = await response.json();
         setAnnouncements(data);
+      } else {
+        const errorText = await response.text();
+        console.error('API Error:', response.status, errorText);
       }
     } catch (error) {
       console.error('Error loading announcements:', error);

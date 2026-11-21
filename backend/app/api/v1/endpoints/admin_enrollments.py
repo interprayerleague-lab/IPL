@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("")
 def create_enrollment(
     data: EnrollmentCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Create new enrollment.
@@ -53,7 +53,7 @@ def create_enrollment(
 def update_enrollment(
     enrollment_id: str,
     data: EnrollmentUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Update enrollment.
@@ -96,9 +96,9 @@ def update_enrollment(
 
 @router.get("")
 def list_enrollments(
+    admin_id: AdminUserId,
     programme_id: str = None,
     status: str = None,
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     List all enrollments with filters.
@@ -124,3 +124,4 @@ def list_enrollments(
         return result.data or []
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

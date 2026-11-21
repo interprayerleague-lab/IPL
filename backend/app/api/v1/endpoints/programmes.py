@@ -27,7 +27,7 @@ def list_published_programmes():
 @router.get("/{programme_id}", response_model=ProgrammeResponse)
 def get_programme_with_progress(
     programme_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get programme with modules, lessons, and student progress.
@@ -62,7 +62,7 @@ def get_programme_with_progress(
 def get_module_with_lessons(
     programme_id: str,
     module_slug: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get module with lessons and progress.
@@ -115,7 +115,7 @@ def get_module_with_lessons(
 @router.get("/lessons/{lesson_id}", response_model=LessonResponse)
 def get_lesson(
     lesson_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get lesson details with resources.
@@ -157,3 +157,4 @@ def get_lesson(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

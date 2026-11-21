@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get("/me", response_model=List[EnrollmentResponse])
 def get_my_enrollments(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get current student's enrollments.
@@ -23,7 +23,7 @@ def get_my_enrollments(
 
 @router.get("/me/active", response_model=EnrollmentResponse)
 def get_my_active_enrollment(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get current student's active enrollment.
@@ -39,3 +39,4 @@ def get_my_active_enrollment(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

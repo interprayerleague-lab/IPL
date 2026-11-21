@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("/issue", response_model=CertificateResponse, status_code=201)
 def issue_certificate(
     data: CertificateCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Issue certificate for completed enrollment.
@@ -44,8 +44,8 @@ def issue_certificate(
 @router.post("/{certificate_id}/revoke", response_model=CertificateResponse)
 def revoke_certificate(
     certificate_id: str,
+    admin_id: AdminUserId,
     reason: Optional[str] = None,
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     Revoke certificate.
@@ -75,7 +75,7 @@ def revoke_certificate(
 @router.get("/enrollments/{enrollment_id}/eligibility", response_model=CertificateEligibility)
 def check_eligibility(
     enrollment_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Check certificate eligibility for enrollment.
@@ -90,7 +90,7 @@ def check_eligibility(
 
 @router.get("/eligible")
 def get_eligible_students(
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Get students eligible for certification.
@@ -142,8 +142,8 @@ def get_eligible_students(
 
 @router.get("")
 def list_certificates(
+    admin_id: AdminUserId,
     student_id: Optional[str] = None,
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     List all certificates (optionally filtered by student).
@@ -189,3 +189,4 @@ def list_certificates(
         return certificates
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

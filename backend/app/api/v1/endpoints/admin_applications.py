@@ -11,7 +11,7 @@ router = APIRouter()
 def review_application(
     application_id: str,
     data: ApplicationReview,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Review and update application status.
@@ -36,3 +36,4 @@ def review_application(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

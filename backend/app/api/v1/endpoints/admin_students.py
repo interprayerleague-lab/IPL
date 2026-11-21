@@ -8,12 +8,12 @@ router = APIRouter()
 
 @router.get("")
 def list_students(
+    admin_id: AdminUserId,
     search: Optional[str] = Query(None),
     branch_id: Optional[str] = Query(None),
     status: Optional[str] = Query(None),
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
-    admin_id: str = Depends(AdminUserId),
 ):
     """
     List all students with filters.
@@ -35,7 +35,7 @@ def list_students(
 @router.get("/{student_id}")
 def get_student_detail(
     student_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Get detailed student information.
@@ -50,3 +50,4 @@ def get_student_detail(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

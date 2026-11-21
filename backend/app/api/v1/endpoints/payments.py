@@ -15,7 +15,7 @@ router = APIRouter()
 @router.post("/initialize", response_model=PaymentInitializeResponse)
 def initialize_payment(
     data: PaymentCreate,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Initialize payment with Paystack.
@@ -38,7 +38,7 @@ def initialize_payment(
 
 @router.get("", response_model=List[PaymentResponse])
 def get_my_payments(
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get current student's payment history.
@@ -54,7 +54,7 @@ def get_my_payments(
 @router.get("/{payment_id}", response_model=PaymentResponse)
 def get_payment(
     payment_id: str,
-    student_id: str = Depends(StudentUserId),
+    student_id: StudentUserId,
 ):
     """
     Get payment details.
@@ -140,3 +140,4 @@ async def paystack_webhook(
     except Exception as e:
         print(f"Webhook error: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+

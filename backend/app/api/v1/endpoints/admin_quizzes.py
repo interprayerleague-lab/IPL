@@ -16,7 +16,7 @@ router = APIRouter()
 @router.post("/quizzes")
 def create_quiz(
     data: QuizCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create quiz. Admin only."""
     try:
@@ -33,7 +33,7 @@ def create_quiz(
 def update_quiz(
     quiz_id: str,
     data: QuizUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update quiz. Admin only."""
     try:
@@ -49,7 +49,7 @@ def update_quiz(
 @router.delete("/quizzes/{quiz_id}")
 def delete_quiz(
     quiz_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete quiz. Admin only."""
     try:
@@ -67,7 +67,7 @@ def delete_quiz(
 @router.get("/quizzes/{quiz_id}")
 def get_quiz_admin(
     quiz_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Get quiz with all questions (including correct answers). Admin only."""
     try:
@@ -85,7 +85,7 @@ def get_quiz_admin(
 @router.post("/questions")
 def create_question(
     data: QuestionCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create question. Admin only."""
     try:
@@ -102,7 +102,7 @@ def create_question(
 def update_question(
     question_id: str,
     data: QuestionUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update question. Admin only."""
     try:
@@ -118,7 +118,7 @@ def update_question(
 @router.delete("/questions/{question_id}")
 def delete_question(
     question_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete question. Admin only."""
     try:
@@ -131,3 +131,4 @@ def delete_question(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

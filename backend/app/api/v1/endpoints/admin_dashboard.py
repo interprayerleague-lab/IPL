@@ -8,7 +8,7 @@ router = APIRouter()
 
 @router.get("/stats", response_model=DashboardStatsResponse)
 def get_dashboard_stats(
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """
     Get admin dashboard statistics.
@@ -19,3 +19,4 @@ def get_dashboard_stats(
         return stats
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+

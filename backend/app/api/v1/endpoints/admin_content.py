@@ -18,11 +18,24 @@ from app.core.dependencies import AdminUserId
 router = APIRouter()
 
 
+# CONTENT OVERVIEW
+@router.get("/overview")
+def get_content_overview(
+    admin_id: AdminUserId,
+):
+    """Get hierarchical content structure: programmes -> modules -> lessons -> quizzes. Admin only."""
+    try:
+        programmes = ContentService.get_programmes_with_hierarchy()
+        return programmes
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 # PROGRAMMES
 @router.post("/programmes")
 def create_programme(
     data: ProgrammeCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create new programme. Admin only."""
     try:
@@ -41,7 +54,7 @@ def create_programme(
 def update_programme(
     programme_id: str,
     data: ProgrammeUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update programme. Admin only."""
     try:
@@ -61,7 +74,7 @@ def update_programme(
 @router.delete("/programmes/{programme_id}")
 def delete_programme(
     programme_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete programme. Admin only."""
     try:
@@ -82,7 +95,7 @@ def delete_programme(
 @router.post("/modules")
 def create_module(
     data: ModuleCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create new module. Admin only."""
     try:
@@ -99,7 +112,7 @@ def create_module(
 def update_module(
     module_id: str,
     data: ModuleUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update module. Admin only."""
     try:
@@ -115,7 +128,7 @@ def update_module(
 @router.delete("/modules/{module_id}")
 def delete_module(
     module_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete module. Admin only."""
     try:
@@ -134,7 +147,7 @@ def delete_module(
 @router.post("/lessons")
 def create_lesson(
     data: LessonCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create new lesson. Admin only."""
     try:
@@ -151,7 +164,7 @@ def create_lesson(
 def update_lesson(
     lesson_id: str,
     data: LessonUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update lesson. Admin only."""
     try:
@@ -167,7 +180,7 @@ def update_lesson(
 @router.delete("/lessons/{lesson_id}")
 def delete_lesson(
     lesson_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete lesson. Admin only."""
     try:
@@ -186,7 +199,7 @@ def delete_lesson(
 @router.post("/resources")
 def create_resource(
     data: ResourceCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create new resource. Admin only."""
     try:
@@ -203,7 +216,7 @@ def create_resource(
 def update_resource(
     resource_id: str,
     data: ResourceUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update resource. Admin only."""
     try:
@@ -221,7 +234,7 @@ def update_resource(
 @router.delete("/resources/{resource_id}")
 def delete_resource(
     resource_id: str,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Delete resource. Admin only."""
     try:
@@ -240,7 +253,7 @@ def delete_resource(
 @router.post("/cohorts")
 def create_cohort(
     data: CohortCreate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Create new cohort. Admin only."""
     try:
@@ -255,7 +268,7 @@ def create_cohort(
 
 @router.get("/cohorts")
 def list_cohorts(
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """List all cohorts. Admin only."""
     try:
@@ -269,7 +282,7 @@ def list_cohorts(
 def update_cohort(
     cohort_id: str,
     data: CohortUpdate,
-    admin_id: str = Depends(AdminUserId),
+    admin_id: AdminUserId,
 ):
     """Update cohort. Admin only."""
     try:
@@ -280,3 +293,4 @@ def update_cohort(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+
